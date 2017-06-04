@@ -49,6 +49,7 @@ if FLAGS.job_name == "ps":
   server.join()
 elif FLAGS.job_name == "worker":
 
+	print("1")
 	# Between-graph replication
 	with tf.device(tf.train.replica_device_setter(
 		worker_device="/job:worker/task:%d" % FLAGS.task_index,
@@ -124,6 +125,7 @@ elif FLAGS.job_name == "worker":
 		init_op = tf.global_variables_initializer()
 		print("Variables initialized ...")
 
+	print("2")
 	sv = tf.train.Supervisor(is_chief=(FLAGS.task_index == 0),
 														global_step=global_step,
 														init_op=init_op)
@@ -137,6 +139,7 @@ elif FLAGS.job_name == "worker":
 			sv.start_queue_runners(sess, [chief_queue_runner])
 			sess.run(init_token_op)
 		'''
+		print("3")
 		# create log writer object (this will log on every machine)
 		writer = tf.summary.FileWriter(logs_path, graph=tf.get_default_graph())
 				
